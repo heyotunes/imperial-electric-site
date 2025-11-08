@@ -91,17 +91,10 @@ export default function HomePage() {
               <h3>500+</h3>
               <p>Projects Completed</p>
             </div>
-            <div className="hp-stat">
-              <h3>99.9%</h3>
-              <p>Uptime SLA</p>
-            </div>
+
             <div className="hp-stat">
               <h3>24/7</h3>
               <p>Support</p>
-            </div>
-            <div className="hp-stat">
-              <h3>ISO</h3>
-              <p>Certified</p>
             </div>
           </div>
         </div>
@@ -407,7 +400,7 @@ export default function HomePage() {
                 </span>
                 <div className="hp-contact-copy">
                   <h4>Call Us</h4>
-                  <p>(555) 123-4567</p>
+                  <p>(609) 816-1564</p>
                 </div>
               </li>
 
@@ -429,33 +422,7 @@ export default function HomePage() {
                 </span>
                 <div className="hp-contact-copy">
                   <h4>Email Us</h4>
-                  <p>quotes@imperialelectric.com</p>
-                </div>
-              </li>
-
-              <li className="hp-contact-item">
-                <span className="hp-contact-ico">
-                  {/* pin */}
-                  <svg
-                    width="22"
-                    height="22"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    aria-hidden="true"
-                  >
-                    <path
-                      d="M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7Zm0 9.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5Z"
-                      fill="#fff"
-                    />
-                  </svg>
-                </span>
-                <div className="hp-contact-copy">
-                  <h4>Visit Us</h4>
-                  <p>
-                    1234 Government Way
-                    <br />
-                    Washington, DC 20001
-                  </p>
+                  <p>BO@imperialelectricllc.com</p>
                 </div>
               </li>
 
@@ -477,11 +444,7 @@ export default function HomePage() {
                 </span>
                 <div className="hp-contact-copy">
                   <h4>Business Hours</h4>
-                  <p>
-                    Mon–Fri: 8:00 AM – 6:00 PM EST
-                    <br />
-                    24/7 Emergency Support
-                  </p>
+                  <p>Mon–Sun: 24/7</p>
                 </div>
               </li>
             </ul>
