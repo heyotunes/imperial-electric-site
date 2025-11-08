@@ -1,33 +1,39 @@
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
+import { useForm, ValidationError } from "@formspree/react";
 import "../styles/homepage.css";
-import heroImg from "../tools/hero2.jpg"; // your image
+import heroImg from "../tools/hero2.jpg";
 import gov1 from "../tools/gov1.jpg";
 import gov2 from "../tools/gov2.jpg";
 import uni1 from "../tools/uni1.jpg";
 import imperiallogo from "../tools/imperiallogo.png";
 import hospital1 from "../tools/hospital1.jpg";
-import emailjs, { init } from "@emailjs/browser";
-
-// init once at module load
-init(import.meta.env.VITE_EMAILJS_PUBLIC);
 
 export default function HomePage() {
   const [showQuote, setShowQuote] = useState(false);
-  // at top of component if you want a spinner/disabled state
   const [sending, setSending] = useState(false);
-
+  const [showSuccess, setShowSuccess] = useState(false);
   const capabilitiesRef = useRef(null);
+
+  // --- Formspree hook
+  const [state, handleSubmit] = useForm(
+    import.meta.env.VITE_FORMSPREE_FORM_ID || "mvgdprzk"
+  );
+
+  // on success: show success modal and auto-hide after 3s
+  useEffect(() => {
+    if (state.succeeded) {
+      setShowSuccess(true);
+      setShowQuote(false);
+      const t = setTimeout(() => setShowSuccess(false), 3000);
+      return () => clearTimeout(t);
+    }
+  }, [state.succeeded]);
 
   const handleViewCapabilities = () =>
     capabilitiesRef.current?.scrollIntoView({
       behavior: "smooth",
       block: "start",
     });
-
-  // read from Vite env
-  const EMAILJS_SERVICE = import.meta.env.VITE_EMAILJS_SERVICE;
-  const EMAILJS_TEMPLATE = import.meta.env.VITE_EMAILJS_TEMPLATE;
-  const EMAILJS_PUBLIC = import.meta.env.VITE_EMAILJS_PUBLIC;
 
   return (
     <div className="hp-root">
@@ -100,7 +106,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ========== CAPABILITIES (placeholder – next section to build) ========== */}
       {/* ========== CAPABILITIES / OUR SERVICES ========== */}
       <section ref={capabilitiesRef} className="hp-services" id="capabilities">
         <div className="hp-services-inner">
@@ -117,7 +122,6 @@ export default function HomePage() {
             {/* Enterprise Hardware */}
             <article className="hp-service-card">
               <div className="hp-service-icon">
-                {/* server icon */}
                 <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
                   <rect
                     x="3"
@@ -158,7 +162,6 @@ export default function HomePage() {
             {/* Cloud Services */}
             <article className="hp-service-card">
               <div className="hp-service-icon">
-                {/* cloud icon */}
                 <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
                   <path
                     d="M7 17h9a4 4 0 0 0 0-8 5 5 0 0 0-9.7 1A3.5 3.5 0 0 0 7 17Z"
@@ -184,7 +187,6 @@ export default function HomePage() {
             {/* IT Solutions */}
             <article className="hp-service-card">
               <div className="hp-service-icon">
-                {/* wrench icon */}
                 <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
                   <path
                     d="M21 7a5 5 0 0 1-7 6l-7 7-3-3 7-7a5 5 0 0 1 6-7"
@@ -213,7 +215,6 @@ export default function HomePage() {
           <div className="hp-values">
             <div className="hp-value">
               <div className="hp-value-icon">
-                {/* shield */}
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
                   <path
                     d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6l8-3Z"
@@ -230,7 +231,6 @@ export default function HomePage() {
             </div>
             <div className="hp-value">
               <div className="hp-value-icon">
-                {/* chip */}
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
                   <rect
                     x="7"
@@ -256,7 +256,6 @@ export default function HomePage() {
             </div>
             <div className="hp-value">
               <div className="hp-value-icon">
-                {/* grid */}
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
                   <rect
                     x="3"
@@ -304,6 +303,7 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
       {/* ========== WHO WE SERVE ========== */}
       <section className="hp-serve" id="who-we-serve">
         <div className="hp-serve-inner">
@@ -367,6 +367,7 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
       {/* ========== GET STARTED / CONTACT ========== */}
       <section className="hp-getstarted" aria-labelledby="get-started-heading">
         <div className="hp-getstarted-inner">
@@ -384,7 +385,6 @@ export default function HomePage() {
             <ul className="hp-contact-list" aria-label="Contact options">
               <li className="hp-contact-item">
                 <span className="hp-contact-ico">
-                  {/* phone */}
                   <svg
                     width="22"
                     height="22"
@@ -406,7 +406,6 @@ export default function HomePage() {
 
               <li className="hp-contact-item">
                 <span className="hp-contact-ico">
-                  {/* mail */}
                   <svg
                     width="22"
                     height="22"
@@ -428,7 +427,6 @@ export default function HomePage() {
 
               <li className="hp-contact-item">
                 <span className="hp-contact-ico">
-                  {/* clock */}
                   <svg
                     width="22"
                     height="22"
@@ -453,7 +451,6 @@ export default function HomePage() {
             <aside className="hp-quote-card" aria-label="Get your quote today">
               <div className="hp-quote-icon">
                 <span className="hp-quote-icon-pill">
-                  {/* arrow */}
                   <svg
                     width="22"
                     height="22"
@@ -491,7 +488,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ========== REQUEST QUOTE MODAL ========== */}
+      {/* ========== REQUEST QUOTE MODAL (Formspree) ========== */}
       {showQuote && (
         <div className="hp-modal-backdrop" role="dialog" aria-modal="true">
           <div className="hp-modal">
@@ -511,43 +508,16 @@ export default function HomePage() {
             <form
               className="hp-form"
               onSubmit={async (e) => {
-                e.preventDefault();
-                const form = e.currentTarget; // <— capture the form element NOW
-                const fd = new FormData(form);
-
-                // Honeypot
-                if (fd.get("website")) return;
-
-                const payload = {
-                  fullName: fd.get("fullName"),
-                  businessName: fd.get("businessName"),
-                  businessEmail: fd.get("businessEmail"),
-                  phone: fd.get("phone"),
-                  request: fd.get("request"),
-                };
-
+                setSending(true);
                 try {
-                  setSending(true);
-
-                  // if you initialized emailjs at module top, no 4th arg is needed
-                  await emailjs.send(
-                    EMAILJS_SERVICE,
-                    EMAILJS_TEMPLATE,
-                    payload
-                  );
-
-                  alert("✅ Your quote request has been sent!");
-                  form.reset(); // <— use the saved element, not e.currentTarget
-                  setShowQuote(false);
-                } catch (err) {
-                  console.error(err);
-                  alert("❌ Couldn’t send right now. Please try again.");
+                  await handleSubmit(e); // Formspree handles posting the fields
+                  // state.succeeded will flip to true -> success modal via useEffect
+                  e.currentTarget.reset();
                 } finally {
                   setSending(false);
                 }
               }}
             >
-              {/* Full name */}
               <label>
                 Full name
                 <input
@@ -559,7 +529,6 @@ export default function HomePage() {
                 />
               </label>
 
-              {/* Business name */}
               <label>
                 Name of business
                 <input
@@ -571,7 +540,6 @@ export default function HomePage() {
                 />
               </label>
 
-              {/* Business email */}
               <label>
                 Business email
                 <input
@@ -583,7 +551,6 @@ export default function HomePage() {
                 />
               </label>
 
-              {/* Phone */}
               <label>
                 Phone number
                 <input
@@ -598,7 +565,6 @@ export default function HomePage() {
                 />
               </label>
 
-              {/* Request details */}
               <label>
                 What you’re requesting
                 <textarea
@@ -606,8 +572,31 @@ export default function HomePage() {
                   rows="4"
                   placeholder="Briefly describe what you need…"
                   required
+                  maxLength={2000}
                 />
               </label>
+
+              {/* Honeypot recognized by Formspree */}
+              <input
+                type="text"
+                name="_gotcha"
+                tabIndex={-1}
+                autoComplete="off"
+                style={{ position: "absolute", left: "-9999px" }}
+                aria-hidden="true"
+              />
+
+              {/* Optional helpers */}
+              <input
+                type="hidden"
+                name="_subject"
+                value="New Quote Request (Imperial Electric)"
+              />
+              <ValidationError
+                prefix="Form"
+                field="form"
+                errors={state.errors}
+              />
 
               <div className="hp-actions">
                 <button
@@ -620,13 +609,31 @@ export default function HomePage() {
                 <button
                   type="submit"
                   className="hp-btn hp-btn-primary"
-                  disabled={sending}
-                  aria-busy={sending}
+                  disabled={sending || state.submitting}
+                  aria-busy={sending || state.submitting}
                 >
-                  {sending ? "Sending..." : "Send Request"}
+                  {sending || state.submitting ? "Sending..." : "Send Request"}
                 </button>
               </div>
             </form>
+          </div>
+        </div>
+      )}
+
+      {/* ========== SUCCESS MODAL ========== */}
+      {showSuccess && (
+        <div className="hp-modal-backdrop" role="status" aria-live="polite">
+          <div className="hp-modal">
+            <h3 className="hp-modal-title">Request Sent ✅</h3>
+            <p className="hp-muted">
+              Thanks! Our team will reach out within 1 business day.
+            </p>
+            <button
+              className="hp-btn hp-btn-primary"
+              onClick={() => setShowSuccess(false)}
+            >
+              Close
+            </button>
           </div>
         </div>
       )}
