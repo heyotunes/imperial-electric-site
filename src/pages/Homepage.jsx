@@ -148,7 +148,7 @@ export default function HomePage() {
               </p>
               <ul className="hp-bullets">
                 <li>Dell EMC</li>
-                <li>HPE</li>
+
                 <li>Cisco</li>
                 <li>Lenovo</li>
                 <li>Custom Configurations</li>
